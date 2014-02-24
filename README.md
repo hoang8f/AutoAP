@@ -9,7 +9,7 @@ Usage
 =====
 Using Android Studio
 
-From menu: VCS -> Check out from version control -> git -> this repo location
+From menu: VCS -> Check out from version control -> git -> https://github.com/hoang8f/AutoAP.git
 
 License
 =======
