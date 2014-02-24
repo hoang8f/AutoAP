@@ -1,13 +1,16 @@
 package info.hoang8f.autoap;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -16,15 +19,20 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
 
     private Switch mSwitch;
     private WifiManager mWifiManager;
+    private ImageView mTetheringImage;
+    private TextView mDescription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mSwitch = (Switch) findViewById(R.id.ap_button);
-        mSwitch.setOnCheckedChangeListener(this);
+        mTetheringImage = (ImageView) findViewById(R.id.tethering_image);
+        mDescription = (TextView) findViewById(R.id.description);
 
+        mSwitch.setOnCheckedChangeListener(this);
         mWifiManager = (WifiManager) this.getSystemService(this.WIFI_SERVICE);
+
     }
 
 
@@ -32,7 +40,8 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
     public boolean onCreateOptionsMenu(Menu menu) {
 
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        //TODO Add more settings
+//        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
@@ -59,31 +68,53 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
         }
     }
 
-    private void enableAP() {
-        setAP(true);
+    private boolean enableAP() {
+        if (setAP(true)) {
+            mTetheringImage.setImageResource(R.drawable.wifi_enabled);
+            mDescription.setText(R.string.tethering_off);
+            return true;
+        }
+        showMessage(R.string.failed_on);
+        return false;
     }
 
-    private void disableAP() {
-        setAP(false);
+    private boolean disableAP() {
+        if (setAP(false)) {
+            mTetheringImage.setImageResource(R.drawable.wifi_disabled);
+            mDescription.setText(R.string.tethering_on);
+            return true;
+        }
+        showMessage(R.string.failed_off);
+        return false;
     }
 
-    private void setAP(boolean shouldOpen) {
+    private boolean setAP(boolean shouldOpen) {
         WifiConfiguration wifi_configuration = null;
         mWifiManager.setWifiEnabled(false);
-
         try {
             //USE REFLECTION TO GET METHOD "SetWifiAPEnabled"
             Method method = mWifiManager.getClass().getMethod("setWifiApEnabled", WifiConfiguration.class, boolean.class);
             method.invoke(mWifiManager, wifi_configuration, shouldOpen);
+            return true;
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
+            return false;
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
+            return false;
         } catch (IllegalAccessException e) {
             e.printStackTrace();
+            return false;
         } catch (InvocationTargetException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
+    private void showMessage(int message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.message);
+        builder.setMessage(message);
+        builder.create().show();
+    }
 }

@@ -2,7 +2,11 @@
 <resources>
 
     <string name="app_name">AutoAP</string>
-    <string name="hello_world">Press button to turn on Access Point</string>
+    <string name="tethering_on">Switch to turn <b>ON</b> Tethering.</string>
+    <string name="tethering_off">Switch to turn <b>OFF</b> Tethering.</string>
+    <string name="failed_on">Failed to turn ON Tethering!</string>
+    <string name="failed_off">Failed to turn OFF Tethering!</string>
     <string name="action_settings">Settings</string>
+    <string name="message">Message</string>
 
 </resources>
