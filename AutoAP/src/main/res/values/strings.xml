@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">AutoAP</string>
+    <string name="hello_world">Press button to turn on Access Point</string>
+    <string name="action_settings">Settings</string>
+
+</resources>
