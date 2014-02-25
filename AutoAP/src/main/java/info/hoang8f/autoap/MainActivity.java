@@ -2,6 +2,7 @@ package info.hoang8f.autoap;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -31,7 +32,7 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
         mDescription = (TextView) findViewById(R.id.description);
 
         mSwitch.setOnCheckedChangeListener(this);
-        mWifiManager = (WifiManager) this.getSystemService(this.WIFI_SERVICE);
+        mWifiManager = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);
 
     }
 
@@ -82,6 +83,7 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
         if (setAP(false)) {
             mTetheringImage.setImageResource(R.drawable.wifi_disabled);
             mDescription.setText(R.string.tethering_on);
+            enableWifi();
             return true;
         }
         showMessage(R.string.failed_off);
@@ -89,7 +91,9 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
     }
 
     private boolean setAP(boolean shouldOpen) {
-        WifiConfiguration wifi_configuration = null;
+        WifiConfiguration wifi_configuration = new WifiConfiguration();
+        wifi_configuration.SSID ="AutoAP Access Point";
+        wifi_configuration.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
         mWifiManager.setWifiEnabled(false);
         try {
             //USE REFLECTION TO GET METHOD "SetWifiAPEnabled"
@@ -109,6 +113,11 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
             e.printStackTrace();
             return false;
         }
+    }
+
+    private void enableWifi() {
+        WifiManager wifiManager = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);
+        wifiManager.setWifiEnabled(true);
     }
 
     private void showMessage(int message) {
