@@ -69,7 +69,7 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
         }
     }
 
-    private boolean enableAP() {
+    public boolean enableAP() {
         if (setAP(true)) {
             mTetheringImage.setImageResource(R.drawable.wifi_enabled);
             mDescription.setText(R.string.tethering_off);
@@ -79,7 +79,7 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
         return false;
     }
 
-    private boolean disableAP() {
+    public boolean disableAP() {
         if (setAP(false)) {
             mTetheringImage.setImageResource(R.drawable.wifi_disabled);
             mDescription.setText(R.string.tethering_on);
@@ -90,7 +90,7 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
         return false;
     }
 
-    private boolean setAP(boolean shouldOpen) {
+    public boolean setAP(boolean shouldOpen) {
         WifiConfiguration wifi_configuration = new WifiConfiguration();
         wifi_configuration.SSID ="AutoAP Access Point";
         wifi_configuration.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
