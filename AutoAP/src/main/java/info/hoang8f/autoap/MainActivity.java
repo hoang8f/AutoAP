@@ -69,11 +69,7 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
     }
 
     public void setmSwitch() {
-        if (mWifiAPUtils.isWifiApEnable()) {
-            mSwitch.setChecked(true);
-        } else {
-            mSwitch.setChecked(false);
-        }
+        mSwitch.setChecked(mWifiAPUtils.isWifiApEnable());
     }
 
     @Override

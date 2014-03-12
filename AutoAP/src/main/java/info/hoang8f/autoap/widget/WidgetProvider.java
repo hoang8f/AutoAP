@@ -30,7 +30,7 @@ public class WidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-//        super.onUpdate(context, appWidgetManager, appWidgetIds);
+        super.onUpdate(context, appWidgetManager, appWidgetIds);
         mWifiAPUtils = new WifiAPUtils(context);
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.one_click_widget);
 
