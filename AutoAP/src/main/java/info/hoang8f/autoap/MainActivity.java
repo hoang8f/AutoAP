@@ -3,6 +3,7 @@ package info.hoang8f.autoap;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -16,12 +17,15 @@ import android.widget.TextView;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import info.hoang8f.autoap.widget.WidgetProvider;
+
 public class MainActivity extends Activity implements CompoundButton.OnCheckedChangeListener {
 
     private Switch mSwitch;
     private WifiManager mWifiManager;
     private ImageView mTetheringImage;
     private TextView mDescription;
+    private WifiAPUtils mWifiAPUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,11 +35,17 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
         mTetheringImage = (ImageView) findViewById(R.id.tethering_image);
         mDescription = (TextView) findViewById(R.id.description);
 
+        mWifiAPUtils = new WifiAPUtils(this);
+        setmSwitch();
         mSwitch.setOnCheckedChangeListener(this);
-        mWifiManager = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setmSwitch();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -58,6 +68,14 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
         return super.onOptionsItemSelected(item);
     }
 
+    public void setmSwitch() {
+        if (mWifiAPUtils.isWifiApEnable()) {
+            mSwitch.setChecked(true);
+        } else {
+            mSwitch.setChecked(false);
+        }
+    }
+
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if (isChecked) {
@@ -70,9 +88,12 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
     }
 
     public boolean enableAP() {
-        if (setAP(true)) {
+        if (mWifiAPUtils.setAP(true)) {
             mTetheringImage.setImageResource(R.drawable.wifi_enabled);
             mDescription.setText(R.string.tethering_off);
+            Intent intent = new Intent();
+            intent.setAction(WidgetProvider.CHANGE_WIDGET_ON);
+            this.sendBroadcast(intent);
             return true;
         }
         showMessage(R.string.failed_on);
@@ -80,45 +101,19 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
     }
 
     public boolean disableAP() {
-        if (setAP(false)) {
+        if (mWifiAPUtils.setAP(false)) {
             mTetheringImage.setImageResource(R.drawable.wifi_disabled);
             mDescription.setText(R.string.tethering_on);
-            enableWifi();
+            mWifiAPUtils.enableWifi();
+            Intent intent = new Intent();
+            intent.setAction(WidgetProvider.CHANGE_WIDGET_OFF);
+            this.sendBroadcast(intent);
             return true;
         }
         showMessage(R.string.failed_off);
         return false;
     }
 
-    public boolean setAP(boolean shouldOpen) {
-        WifiConfiguration wifi_configuration = new WifiConfiguration();
-        wifi_configuration.SSID ="AutoAP Access Point";
-        wifi_configuration.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
-        mWifiManager.setWifiEnabled(false);
-        try {
-            //USE REFLECTION TO GET METHOD "SetWifiAPEnabled"
-            Method method = mWifiManager.getClass().getMethod("setWifiApEnabled", WifiConfiguration.class, boolean.class);
-            method.invoke(mWifiManager, wifi_configuration, shouldOpen);
-            return true;
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-            return false;
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-            return false;
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            return false;
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    private void enableWifi() {
-        WifiManager wifiManager = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);
-        wifiManager.setWifiEnabled(true);
-    }
 
     private void showMessage(int message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

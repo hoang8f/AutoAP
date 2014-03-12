@@ -25,6 +25,8 @@
             <intent-filter>
                 <action android:name="autoap.turnOn" />
                 <action android:name="autoap.turnOff" />
+                <action android:name="autoap.change.on" />
+                <action android:name="autoap.change.off" />
             </intent-filter>
 
             <meta-data
