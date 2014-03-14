@@ -18,19 +18,19 @@ public class WifiAPUtils {
     public static String SECURE_WPA = "WPA";
     public static String SECURE_WPA2 = "WPA2";
     public static int PASS_MIN_LENGHT = 8;
-
-    WifiManager mWifiManager;
-    Context context;
     String ssid = "Auto AP";
     String securityType = SECURE_OPEN;
     String password = "12345678";
+
+    WifiManager mWifiManager;
+    Context context;
+
 
     public WifiAPUtils(Context context) {
         this.context = context;
         mWifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     public boolean setAP(boolean shouldOpen) {
         WifiConfiguration wifi_configuration = new WifiConfiguration();
         wifi_configuration.SSID = ssid;
@@ -38,7 +38,12 @@ public class WifiAPUtils {
             wifi_configuration.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
         } else {
 //            wifi_configuration.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
-            wifi_configuration.enterpriseConfig.setPassword(password);
+            if (securityType.equals((SECURE_WPA))) {
+                wifi_configuration.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
+            } else if (securityType.equals(SECURE_WPA2)) {
+                wifi_configuration.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_EAP);
+            }
+            wifi_configuration.preSharedKey = password;
         }
         mWifiManager.setWifiEnabled(false);
         try {
