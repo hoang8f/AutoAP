@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="35dp"
+    android:minHeight="35dp"
+    android:updatePeriodMillis="86400000"
+    android:previewImage="@drawable/wifi_enabled"
+    android:initialLayout="@layout/one_click_widget"
+    android:resizeMode="horizontal|vertical"
+    android:widgetCategory="home_screen|keyguard" />
