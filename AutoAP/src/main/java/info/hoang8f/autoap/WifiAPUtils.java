@@ -35,26 +35,25 @@ public class WifiAPUtils {
     }
 
     public boolean setAP(boolean shouldOpen) {
-        WifiConfiguration wifi_configuration = new WifiConfiguration();
-        wifi_configuration.SSID = mSharedPrefs.getString(Constants.PREFS_SSID, ssid);
+        WifiConfiguration configuration = new WifiConfiguration();
+        configuration.SSID = mSharedPrefs.getString(Constants.PREFS_SSID, ssid);
         securityType = mSharedPrefs.getString(Constants.PREFS_SECURITY, securityType);
         password = mSharedPrefs.getString(Constants.PREFS_PASSWORD, password);
         if (securityType.equals(SECURE_OPEN)) {
-            wifi_configuration.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
+            configuration.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
         } else {
-//            wifi_configuration.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
             if (securityType.equals((SECURE_WPA))) {
-                wifi_configuration.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
+                configuration.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
             } else if (securityType.equals(SECURE_WPA2)) {
-                wifi_configuration.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_EAP);
+                configuration.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_EAP);
             }
-            wifi_configuration.preSharedKey = password;
+            configuration.preSharedKey = password;
         }
         mWifiManager.setWifiEnabled(false);
         try {
             //USE REFLECTION TO GET METHOD "SetWifiAPEnabled"
             Method method = mWifiManager.getClass().getMethod("setWifiApEnabled", WifiConfiguration.class, boolean.class);
-            method.invoke(mWifiManager, wifi_configuration, shouldOpen);
+            method.invoke(mWifiManager, configuration, shouldOpen);
             return true;
         } catch (NoSuchMethodException e) {
             e.printStackTrace();

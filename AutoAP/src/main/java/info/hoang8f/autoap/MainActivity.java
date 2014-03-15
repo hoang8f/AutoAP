@@ -5,10 +5,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.text.InputType;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -28,8 +26,6 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,8 +37,8 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
     private WifiManager mWifiManager;
     private ImageView mTetheringImage;
     private TextView mDescription;
-    private EditText ssid_editText;
-    private EditText password_editText;
+    private EditText ssidEditText;
+    private EditText passwordEditText;
     private Spinner spinner;
     private CheckBox checkBox;
     private Button save;
@@ -59,8 +55,8 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
         mSwitch = (Switch) findViewById(R.id.ap_button);
         mTetheringImage = (ImageView) findViewById(R.id.tethering_image);
         mDescription = (TextView) findViewById(R.id.description);
-        ssid_editText = (EditText) findViewById(R.id.ssid_editText);
-        password_editText = (EditText) findViewById(R.id.password_editText);
+        ssidEditText = (EditText) findViewById(R.id.ssid_editText);
+        passwordEditText = (EditText) findViewById(R.id.password_editText);
         spinner = (Spinner) findViewById(R.id.spinner);
         checkBox = (CheckBox) findViewById(R.id.checkBox);
         save = (Button) findViewById(R.id.save_button);
@@ -78,8 +74,8 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
         save.setOnClickListener(this);
         checkBox.setOnCheckedChangeListener(this);
 
-        ssid_editText.setText(ssid);
-        password_editText.setText(password);
+        ssidEditText.setText(ssid);
+        passwordEditText.setText(password);
 
     }
 
@@ -128,9 +124,9 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
                 break;
             case R.id.checkBox:
                 if (!isChecked) {
-                    password_editText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    passwordEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
                 } else {
-                    password_editText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    passwordEditText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                 }
         }
     }
@@ -180,41 +176,45 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
         spinner.setAdapter(adapter);
         int index = security.indexOf(securityType);
         if (index != -1) spinner.setSelection(index);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                LinearLayout pass_layout = (LinearLayout) findViewById(R.id.password_layout);
-                LinearLayout checkBox_layout = (LinearLayout) findViewById(R.id.checkBox_layout);
-                securityType = parent.getItemAtPosition(position).toString();
-                if (WifiAPUtils.SECURE_OPEN.equals(securityType)) {
-                    pass_layout.setVisibility(View.GONE);
-                    checkBox_layout.setVisibility(View.GONE);
-                } else {
-                    pass_layout.setVisibility(View.VISIBLE);
-                    checkBox_layout.setVisibility(View.VISIBLE);
-                }
-            }
+        else spinner.setSelection(0);
+        spinner.setOnItemSelectedListener(new CustomOnItemSelected());
+    }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+    public class CustomOnItemSelected implements AdapterView.OnItemSelectedListener {
 
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            LinearLayout pass_layout = (LinearLayout) findViewById(R.id.password_layout);
+            LinearLayout checkBox_layout = (LinearLayout) findViewById(R.id.checkBox_layout);
+            securityType = parent.getItemAtPosition(position).toString();
+            if (WifiAPUtils.SECURE_OPEN.equals(securityType)) {
+                pass_layout.setVisibility(View.GONE);
+                checkBox_layout.setVisibility(View.GONE);
+            } else {
+                pass_layout.setVisibility(View.VISIBLE);
+                checkBox_layout.setVisibility(View.VISIBLE);
             }
-        });
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.save_button:
-                ssid = ssid_editText.getText().toString();
-                password = password_editText.getText().toString();
+                ssid = ssidEditText.getText().toString();
+                password = passwordEditText.getText().toString();
 
                 if (TextUtils.isEmpty(ssid)) {
-                    ssid_editText.setError("Network SSID is empty");
+                    ssidEditText.setError("Network SSID is empty");
                     return;
                 }
                 if (TextUtils.isEmpty(password) || password.length() < WifiAPUtils.PASS_MIN_LENGHT) {
-                    password_editText.setError("You must have 8 characters in password");
+                    passwordEditText.setError("You must have 8 characters in password");
                     return;
                 }
 
