@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:minWidth="35dp"
         android:minHeight="35dp"
+        android:padding="10dp"
         android:src="@drawable/wifi_enabled"
         android:scaleType="fitCenter" />
 
