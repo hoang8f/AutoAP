@@ -2,6 +2,7 @@ package info.hoang8f.autoap;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.Build;
@@ -18,22 +19,26 @@ public class WifiAPUtils {
     public static String SECURE_WPA = "WPA";
     public static String SECURE_WPA2 = "WPA2";
     public static int PASS_MIN_LENGHT = 8;
-    String ssid = "Auto AP";
-    String securityType = SECURE_OPEN;
-    String password = "12345678";
+    public String ssid = "Auto AP";
+    public String securityType = SECURE_OPEN;
+    public String password = "12345678";
 
     WifiManager mWifiManager;
     Context context;
+    SharedPreferences mSharedPrefs;
 
 
     public WifiAPUtils(Context context) {
         this.context = context;
         mWifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        mSharedPrefs = context.getSharedPreferences(Constants.PREFS_KEY, Context.MODE_PRIVATE);
     }
 
     public boolean setAP(boolean shouldOpen) {
         WifiConfiguration wifi_configuration = new WifiConfiguration();
-        wifi_configuration.SSID = ssid;
+        wifi_configuration.SSID = mSharedPrefs.getString(Constants.PREFS_SSID, ssid);
+        securityType = mSharedPrefs.getString(Constants.PREFS_SECURITY, securityType);
+        password = mSharedPrefs.getString(Constants.PREFS_PASSWORD, password);
         if (securityType.equals(SECURE_OPEN)) {
             wifi_configuration.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
         } else {

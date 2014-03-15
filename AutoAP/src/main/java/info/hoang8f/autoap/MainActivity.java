@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -46,7 +47,10 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
     private CheckBox checkBox;
     private Button save;
     private WifiAPUtils mWifiAPUtils;
+    private String ssid;
     private String securityType;
+    private String password;
+    private SharedPreferences mSharedPrefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,11 +66,20 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
         save = (Button) findViewById(R.id.save_button);
 
         mWifiAPUtils = new WifiAPUtils(this);
+
+        mSharedPrefs = this.getSharedPreferences(Constants.PREFS_KEY, Context.MODE_PRIVATE);
+        ssid = mSharedPrefs.getString(Constants.PREFS_SSID, mWifiAPUtils.ssid);
+        securityType = mSharedPrefs.getString(Constants.PREFS_SECURITY, mWifiAPUtils.securityType);
+        password = mSharedPrefs.getString(Constants.PREFS_PASSWORD, mWifiAPUtils.password);
+
         setmSwitch();
         mSwitch.setOnCheckedChangeListener(this);
         showSpinner();
         save.setOnClickListener(this);
         checkBox.setOnCheckedChangeListener(this);
+
+        ssid_editText.setText(ssid);
+        password_editText.setText(password);
 
     }
 
@@ -165,6 +178,8 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item, security);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        int index = security.indexOf(securityType);
+        if (index != -1) spinner.setSelection(index);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -191,18 +206,24 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.save_button:
-                mWifiAPUtils.securityType = securityType;
-                mWifiAPUtils.ssid = ssid_editText.getText().toString();
-                String password = password_editText.getText().toString();
-                if (WifiAPUtils.SECURE_OPEN.equals(securityType)) {
-                    mWifiAPUtils.password = "";
-                } else {
-                    if (TextUtils.isEmpty(password) || password.length() < WifiAPUtils.PASS_MIN_LENGHT) {
-                        password_editText.setError("You must have 8 characters in password");
-                        return;
-                    }
-                    mWifiAPUtils.password = password;
+                ssid = ssid_editText.getText().toString();
+                password = password_editText.getText().toString();
+
+                if (TextUtils.isEmpty(ssid)) {
+                    ssid_editText.setError("Network SSID is empty");
+                    return;
                 }
+                if (TextUtils.isEmpty(password) || password.length() < WifiAPUtils.PASS_MIN_LENGHT) {
+                    password_editText.setError("You must have 8 characters in password");
+                    return;
+                }
+
+                SharedPreferences.Editor editor = mSharedPrefs.edit();
+                editor.putString(Constants.PREFS_SSID, ssid);
+                editor.putString(Constants.PREFS_SECURITY, securityType);
+                editor.putString(Constants.PREFS_PASSWORD, password);
+                editor.commit();
+
                 Toast.makeText(MainActivity.this, "Network Info saved", Toast.LENGTH_SHORT).show();
                 break;
         }
