@@ -26,15 +26,16 @@ public class WidgetBroadcastReceiver extends BroadcastReceiver {
         mWifiAPUtils = new WifiAPUtils(context);
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.one_click_widget);
         if (intent.getAction().equals(WidgetProvider.TURN_ON_AP)) {
-            Log.d("AP", "On");
-            mWifiAPUtils.setAP(true);
-            remoteViews.setImageViewResource(R.id.widget_img, R.drawable.wifi_enabled);
-            remoteViews.setOnClickPendingIntent(R.id.widget_img, WidgetProvider.clickToTurnOffAP(context));
+            if (mWifiAPUtils.setAP(true)) {
+                remoteViews.setImageViewResource(R.id.widget_img, R.drawable.wifi_enabled);
+                remoteViews.setOnClickPendingIntent(R.id.widget_img, WidgetProvider.clickToTurnOffAP(context));
+            }
         } else if (intent.getAction().equals(WidgetProvider.TURN_OFF_AP)) {
-            mWifiAPUtils.setAP(false);
-            mWifiAPUtils.enableWifi();
-            remoteViews.setImageViewResource(R.id.widget_img, R.drawable.wifi_disabled);
-            remoteViews.setOnClickPendingIntent(R.id.widget_img, WidgetProvider.clickToTurnOnAP(context));
+            if (mWifiAPUtils.setAP(false)) {
+                mWifiAPUtils.enableWifi();
+                remoteViews.setImageViewResource(R.id.widget_img, R.drawable.wifi_disabled);
+                remoteViews.setOnClickPendingIntent(R.id.widget_img, WidgetProvider.clickToTurnOnAP(context));
+            }
         } else if (intent.getAction().equals(WidgetProvider.CHANGE_WIDGET_ON)) {
             remoteViews.setImageViewResource(R.id.widget_img, R.drawable.wifi_enabled);
         } else if (intent.getAction().equals(WidgetProvider.CHANGE_WIDGET_OFF)) {

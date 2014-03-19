@@ -13,9 +13,10 @@
         android:id="@+id/tethering_image"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/config_network"
         android:scaleType="fitCenter"
         android:src="@drawable/wifi_disabled"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
     <TextView
@@ -38,14 +39,14 @@
         android:layout_below="@+id/description" />
 
     <LinearLayout
+        android:id="@+id/config_network"
         android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@id/ap_button"
-        android:layout_marginTop="20dp"
-        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:background="@drawable/config_layout">
 
         <LinearLayout
             android:orientation="horizontal"

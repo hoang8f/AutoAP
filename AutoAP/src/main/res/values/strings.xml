@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">AutoAP</string>
+    <string name="app_name">Free WiFi Hotspot</string>
     <string name="tethering_on">Switch to turn <b>ON</b> Tethering.</string>
     <string name="tethering_off">Switch to turn <b>OFF</b> Tethering.</string>
     <string name="failed_on">Failed to turn ON Tethering!</string>
