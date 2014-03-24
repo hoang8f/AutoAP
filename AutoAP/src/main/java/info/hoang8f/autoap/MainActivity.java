@@ -13,6 +13,7 @@ import android.text.method.PasswordTransformationMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -73,11 +74,12 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
         securityType = mSharedPrefs.getString(Constants.PREFS_SECURITY, mWifiAPUtils.securityType);
         password = mSharedPrefs.getString(Constants.PREFS_PASSWORD, mWifiAPUtils.password);
 
-        setmSwitch();
+        setSwitchImageState();
         mSwitch.setOnCheckedChangeListener(this);
         showSpinner();
         save.setOnClickListener(this);
         checkBox.setOnCheckedChangeListener(this);
+        mTetheringImage.setOnClickListener(this);
 
         ssidEditText.setText(ssid);
         passwordEditText.setText(password);
@@ -87,7 +89,7 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
     @Override
     protected void onResume() {
         super.onResume();
-        setmSwitch();
+        setSwitchImageState();
     }
 
     @Override
@@ -111,8 +113,14 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
         return super.onOptionsItemSelected(item);
     }
 
-    public void setmSwitch() {
-        mSwitch.setChecked(mWifiAPUtils.isWifiApEnable());
+    public void setSwitchImageState() {
+        if (mWifiAPUtils.isWifiApEnable()) {
+            mSwitch.setChecked(true);
+            mTetheringImage.setImageResource(R.drawable.wifi_enabled);
+        } else {
+            mSwitch.setChecked(false);
+            mTetheringImage.setImageResource(R.drawable.wifi_disabled);
+        }
     }
 
     @Override
@@ -229,7 +237,19 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
                 editor.putString(Constants.PREFS_PASSWORD, password);
                 editor.commit();
 
+                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (inputMethodManager.isAcceptingText()) {
+                    inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                }
+
                 Toast.makeText(MainActivity.this, "Network Info saved", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.tethering_image:
+                if (mSwitch.isChecked()) {
+                    mSwitch.setChecked(false);
+                } else {
+                    mSwitch.setChecked(true);
+                }
                 break;
         }
     }

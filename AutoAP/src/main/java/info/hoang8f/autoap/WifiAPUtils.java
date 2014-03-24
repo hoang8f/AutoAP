@@ -19,7 +19,7 @@ public class WifiAPUtils {
     public static String SECURE_WPA = "WPA";
     public static String SECURE_WPA2 = "WPA2";
     public static int PASS_MIN_LENGHT = 8;
-    public String ssid = "Auto AP";
+    public String ssid = "Free WiFi Hotspot";
     public String securityType = SECURE_OPEN;
     public String password = "12345678";
 
