@@ -3,15 +3,8 @@ package info.hoang8f.autoap.widget;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.net.wifi.WifiConfiguration;
-import android.net.wifi.WifiManager;
-import android.util.Log;
 import android.widget.RemoteViews;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
-import info.hoang8f.autoap.MainActivity;
 import info.hoang8f.autoap.R;
 import info.hoang8f.autoap.WifiAPUtils;
 

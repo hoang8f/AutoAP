@@ -1,11 +1,11 @@
 package info.hoang8f.autoap;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
-import android.os.Build;
+
+import com.crashlytics.android.Crashlytics;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -56,15 +56,19 @@ public class WifiAPUtils {
             method.invoke(mWifiManager, configuration, shouldOpen);
             return true;
         } catch (NoSuchMethodException e) {
+            Crashlytics.logException(e);
             e.printStackTrace();
             return false;
         } catch (IllegalArgumentException e) {
+            Crashlytics.logException(e);
             e.printStackTrace();
             return false;
         } catch (IllegalAccessException e) {
+            Crashlytics.logException(e);
             e.printStackTrace();
             return false;
         } catch (InvocationTargetException e) {
+            Crashlytics.logException(e);
             e.printStackTrace();
             return false;
         }
@@ -82,11 +86,11 @@ public class WifiAPUtils {
                 try {
                     isWifiApEnable = (Boolean) method.invoke(mWifiManager);
                 } catch (IllegalArgumentException e) {
-
+                    Crashlytics.logException(e);
                 } catch (IllegalAccessException e) {
-
+                    Crashlytics.logException(e);
                 } catch (InvocationTargetException e) {
-
+                    Crashlytics.logException(e);
                 }
                 break;
             }
