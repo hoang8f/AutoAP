@@ -7,6 +7,7 @@ import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -52,6 +53,7 @@ public class WifiAPUtils {
         mWifiManager.setWifiEnabled(false);
         try {
             //USE REFLECTION TO GET METHOD "SetWifiAPEnabled"
+            if (isHtc()) setHTCSSID(configuration);
             Method method = mWifiManager.getClass().getMethod("setWifiApEnabled", WifiConfiguration.class, boolean.class);
             method.invoke(mWifiManager, configuration, shouldOpen);
             return true;
@@ -92,5 +94,32 @@ public class WifiAPUtils {
             }
         }
         return isWifiApEnable;
+    }
+
+    //Trick for some HTC devices
+    private boolean isHtc() {
+        try {
+            return (null != WifiConfiguration.class.getDeclaredField("mWifiApProfile"));
+        } catch (java.lang.NoSuchFieldException e) {
+            return false;
+        }
+    }
+
+    public void setHTCSSID(WifiConfiguration config) {
+        try {
+            Field mWifiApProfileField = WifiConfiguration.class.getDeclaredField("mWifiApProfile");
+            mWifiApProfileField.setAccessible(true);
+            Object hotSpotProfile = mWifiApProfileField.get(config);
+            mWifiApProfileField.setAccessible(false);
+
+            if(hotSpotProfile!=null){
+                Field ssidField = hotSpotProfile.getClass().getDeclaredField("SSID");
+                ssidField.setAccessible(true);
+                ssidField.set(hotSpotProfile, config.SSID);
+                ssidField.setAccessible(false);
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 }
