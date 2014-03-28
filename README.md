@@ -11,6 +11,36 @@ Using Android Studio
 
 From menu: VCS -> Check out from version control -> git -> https://github.com/hoang8f/AutoAP.git
 
+Working devices
+===============
+Here is list of working devices which I have tested or have been reported by google play.
+If your device is not in this and Non-Working list it simply means that your device is not reported by anyone.
+It may work normally.
+
+       Google Nexus 4
+       Google Nexus 5
+       Samsung Galaxy S3
+       Samsung Galaxy S4
+       Kyocera Corporation Hydro (C5170)
+       Samsung Galaxy Discover (amazing3gcri)
+       Samsung Galaxy S3 Mini (golden)
+       Samsung Galaxy S DUOS (kyleopen)
+       LGE LG Optimus L9 (u2)
+       TCT Mobile Limited (Alcatel) ALCATEL ONE TOUCH 5020N (Megane)
+       LGE Optimus f6 (f6)
+       ZTE N9100 (hayes)
+       ZTE N9520 (stormer)
+       LGE Splendor (u0_cdma)
+
+Non-Working devices
+===================
+Non-Working devices so far as I known.
+
+       ZTE N861
+       RCA RTCXXXXXXXX (Foxconn International Holdings Limited)
+       HTC AMAZE 4G
+
+
 License
 =======
        Copyright {2014} {Le Van Hoang}{Tran Quoc Vu}
