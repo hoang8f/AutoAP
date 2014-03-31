@@ -39,6 +39,9 @@ Non-Working devices so far as I known.
        ZTE N861
        RCA RTCXXXXXXXX (Foxconn International Holdings Limited)
        HTC AMAZE 4G
+       NOOK® HD
+       NOOK® HD+
+       CASIO G'zOne Commando 4G LTE
 
 
 License
@@ -57,6 +60,4 @@ License
        See the License for the specific language governing permissions and
        limitations under the License.
 
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/hoang8f/autoap/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
