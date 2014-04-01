@@ -10,13 +10,15 @@ buildscript {
 apply plugin: 'android'
 apply plugin: 'crashlytics'
 repositories {
+    mavenCentral()
     maven { url 'http://download.crashlytics.com/maven' }
-}
+    maven { url 'https://raw.github.com/hotchemi/Android-Rate/master/repository/' }
 
+}
 
 android {
     compileSdkVersion 19
-    buildToolsVersion "19.0.1"
+    buildToolsVersion '19.0.1'
 
     defaultConfig {
         minSdkVersion 14
@@ -36,9 +38,8 @@ android {
         }
     }
 }
-
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.crashlytics.android:crashlytics:1.+'
-
+    compile 'hotchemi.android.rate:android-rate:0.0.3'
 }

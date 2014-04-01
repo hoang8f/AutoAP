@@ -56,6 +56,7 @@ public class WifiAPUtils {
             if (isHtc()) setHTCSSID(configuration);
             Method method = mWifiManager.getClass().getMethod("setWifiApEnabled", WifiConfiguration.class, boolean.class);
             method.invoke(mWifiManager, configuration, shouldOpen);
+            mSharedPrefs.edit().putBoolean(Constants.PREFS_REFLECT_STATUS, true).commit();
             return true;
         } catch (NoSuchMethodException e) {
             Crashlytics.logException(e);

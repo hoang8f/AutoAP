@@ -1,12 +1,12 @@
 package info.hoang8f.autoap;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -32,9 +32,10 @@ import com.crashlytics.android.Crashlytics;
 import java.util.ArrayList;
 import java.util.List;
 
+import hotchemi.android.rate.AppRate;
 import info.hoang8f.autoap.widget.WidgetProvider;
 
-public class MainActivity extends Activity implements CompoundButton.OnCheckedChangeListener, View.OnClickListener {
+public class MainActivity extends FragmentActivity implements CompoundButton.OnCheckedChangeListener, View.OnClickListener {
 
     private Switch mSwitch;
     private WifiManager mWifiManager;
@@ -50,6 +51,7 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
     private String securityType;
     private String password;
     private SharedPreferences mSharedPrefs;
+    private boolean isReflectionOK = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +91,13 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
     protected void onResume() {
         super.onResume();
         setSwitchImageState();
+
+        isReflectionOK = mSharedPrefs.getBoolean(Constants.PREFS_REFLECT_STATUS, false);
+        if (isReflectionOK) {
+            //Config for rating recomendation, Only show dialog when reflection ok
+            AppRate.setInstallDays(1).setLaunchTimes(5).monitor(this);
+            AppRate.showRateDialogIfMeetsConditions(this);
+        }
     }
 
     @Override
