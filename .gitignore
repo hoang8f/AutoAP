@@ -43,3 +43,4 @@ app/build/
 # Crashlytics
 */com_crashlytics_export_strings.xml
 app/src/main/res/values/com_crashlytics_export_strings.xml
+AutoAP/src/main/res/values/com_crashlytics_export_strings.xml
