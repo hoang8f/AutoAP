@@ -88,8 +88,8 @@ public class MainActivity extends FragmentActivity implements CompoundButton.OnC
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onResumeFragments() {
+        super.onResumeFragments();
         setSwitchImageState();
 
         isReflectionOK = mSharedPrefs.getBoolean(Constants.PREFS_REFLECT_STATUS, false);
