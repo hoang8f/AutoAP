@@ -1,9 +1,9 @@
 AutoAP
 ======
-This is demo source code that can enable/disable WiFi tethering programmatically.
+This application helps you to turn on/off portable Wi-Fi hostpot with one click.
+You also can change the network name (SSID) and set password for your portable network.
 
-App on play store:
-https://play.google.com/store/apps/details?id=info.hoang8f.autoap
+App on play store: https://play.google.com/store/apps/details?id=info.hoang8f.autoap
 
 Usage
 =====
