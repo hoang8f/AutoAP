@@ -11,20 +11,20 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import info.hoang8f.autoap.common.Constants;
-
 /**
  * Created by tranvu on 3/12/14.
  */
 public class WifiAPUtils {
 
-    public static String SECURE_OPEN = "Open";
-    public static String SECURE_WPA = "WPA";
-    public static String SECURE_WPA2 = "WPA2";
-    public static int PASS_MIN_LENGHT = 8;
-    public String ssid = "Free WiFi Hotspot";
+    public static final String DEFAULT_PASSWORD = "12345678";
+    public static final String DEFAULT_SSID = "Free WiFi Hotspot";
+    public static final String SECURE_OPEN = "Open";
+    public static final String SECURE_WPA = "WPA";
+    public static final String SECURE_WPA2 = "WPA2";
+    public static int PASS_MIN_LENGTH = 8;
+    public String ssid = DEFAULT_SSID;
     public String securityType = SECURE_OPEN;
-    public String password = "12345678";
+    public String password = DEFAULT_PASSWORD;
 
     WifiManager mWifiManager;
     Context context;

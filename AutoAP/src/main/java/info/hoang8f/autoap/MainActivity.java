@@ -236,7 +236,7 @@ public class MainActivity extends FragmentActivity implements CompoundButton.OnC
                     ssidEditText.setError("Network SSID is empty");
                     return;
                 }
-                if (TextUtils.isEmpty(password) || password.length() < WifiAPUtils.PASS_MIN_LENGHT) {
+                if (TextUtils.isEmpty(password) || password.length() < WifiAPUtils.PASS_MIN_LENGTH) {
                     passwordEditText.setError("You must have 8 characters in password");
                     return;
                 }
