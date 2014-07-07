@@ -1,4 +1,4 @@
-package info.hoang8f.autoap;
+package info.hoang8f.autoap.common;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -10,6 +10,8 @@ import com.crashlytics.android.Crashlytics;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
+import info.hoang8f.autoap.common.Constants;
 
 /**
  * Created by tranvu on 3/12/14.

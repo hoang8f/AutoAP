@@ -1,4 +1,4 @@
-package info.hoang8f.autoap;
+package info.hoang8f.autoap.common;
 
 /**
  * Created by tranvu on 3/15/14.

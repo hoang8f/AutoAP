@@ -33,6 +33,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import hotchemi.android.rate.AppRate;
+import info.hoang8f.autoap.common.Constants;
+import info.hoang8f.autoap.common.WifiAPUtils;
 import info.hoang8f.autoap.widget.WidgetProvider;
 
 public class MainActivity extends FragmentActivity implements CompoundButton.OnCheckedChangeListener, View.OnClickListener {

@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.widget.RemoteViews;
 
 import info.hoang8f.autoap.R;
-import info.hoang8f.autoap.WifiAPUtils;
+import info.hoang8f.autoap.common.WifiAPUtils;
 
 /**
  * Created by tranvu on 3/8/14.

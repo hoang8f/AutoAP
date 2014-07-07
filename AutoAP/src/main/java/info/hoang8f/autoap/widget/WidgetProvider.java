@@ -10,7 +10,7 @@ import android.util.Log;
 import android.widget.RemoteViews;
 
 import info.hoang8f.autoap.R;
-import info.hoang8f.autoap.WifiAPUtils;
+import info.hoang8f.autoap.common.WifiAPUtils;
 
 /**
  * Created by hoang8f on 2/26/14.
