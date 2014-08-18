@@ -97,7 +97,7 @@ public class MainActivity extends FragmentActivity implements CompoundButton.OnC
         isReflectionOK = mSharedPrefs.getBoolean(Constants.PREFS_REFLECT_STATUS, false);
         if (isReflectionOK) {
             //Config for rating recomendation, Only show dialog when reflection ok
-            AppRate.setInstallDays(2).setLaunchTimes(5).monitor(this);
+            AppRate.getInstance().setInstallDays(2).setLaunchTimes(5).monitor(this);
             AppRate.showRateDialogIfMeetsConditions(this);
         }
     }
