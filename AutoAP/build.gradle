@@ -37,6 +37,9 @@ android {
             runProguard false
         }
     }
+    lintOptions {
+        abortOnError false
+    }
 }
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
