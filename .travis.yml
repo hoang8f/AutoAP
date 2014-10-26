@@ -24,3 +24,5 @@ android:
     - sys-img-x86-android-17
 before_install:
  - chmod +x gradlew
+script:
+ - "./gradlew assembleDebug"
