@@ -41,5 +41,6 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.crashlytics.android:crashlytics:1.+'
-    compile 'hotchemi.android.rate:android-rate:0.0.3'
+    compile 'com.android.support:support-v4:19.1.0'
+    compile 'com.github.hotchemi:android-rate:0.4.0'
 }
