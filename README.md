@@ -1,3 +1,4 @@
+![Travis](https://api.travis-ci.org/hoang8f/AutoAP.svg)
 AutoAP
 ======
 This application helps you to turn on/off portable Wi-Fi hostpot with one click.
