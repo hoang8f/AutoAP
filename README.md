@@ -1,3 +1,5 @@
+This project is not maintained anymore !!!
+
 ![Travis](https://api.travis-ci.org/hoang8f/AutoAP.svg)
 AutoAP
 ======
